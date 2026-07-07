@@ -166,9 +166,187 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(184, 133, 46, 0.3);
         }
-        /* Ocultar la sección de carta completamente */
         #view-carta {
             display: none !important;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.25rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            aspect-ratio: 1 / 1;
+            background-color: rgba(22, 33, 62, 0.3);
+            cursor: pointer;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            border-color: var(--color-primary);
+            box-shadow: 0 8px 30px rgba(184, 133, 46, 0.15);
+            z-index: 2;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 1rem 1rem;
+            background: linear-gradient(to top, rgba(17, 26, 51, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        .gallery-item .overlay span {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .modal-gallery {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            cursor: pointer;
+        }
+        .modal-gallery.active {
+            display: flex;
+        }
+        .modal-gallery img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            cursor: default;
+        }
+        .modal-gallery .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            z-index: 10000;
+            font-weight: 300;
+        }
+        .modal-gallery .close-modal:hover {
+            opacity: 1;
+        }
+        .modal-gallery .modal-counter {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+        .modal-gallery .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 1rem;
+            transition: color 0.3s;
+            user-select: none;
+            z-index: 10000;
+            font-weight: 300;
+        }
+        .modal-gallery .nav-arrow:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .modal-gallery .nav-arrow.prev {
+            left: 1rem;
+        }
+        .modal-gallery .nav-arrow.next {
+            right: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 0.75rem;
+            }
+            .modal-gallery .nav-arrow {
+                font-size: 2rem;
+                padding: 0.5rem;
+            }
+            .modal-gallery .nav-arrow.prev {
+                left: 0.25rem;
+            }
+            .modal-gallery .nav-arrow.next {
+                right: 0.25rem;
+            }
+        }
+                /* Estilos para los iconos de reseñas */
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px;
+        }
+        .social-icon:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-primary);
+            background-color: rgba(184, 133, 46, 0.15);
+            box-shadow: 0 4px 15px rgba(184, 133, 46, 0.2);
+        }
+        .social-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .reseñas-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            justify-content: center;
+        }
+        .reseñas-container .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9ca3af;
+            font-weight: 300;
         }
     </style>
 </head>
@@ -190,9 +368,26 @@
             <div class="mb-6 cursor-pointer" onclick="showView('inicio')">
                 <img src="https://i.imgur.com/RXH6Mpm.png" alt="Torreon Tapas Bar" class="h-20 md:h-28 w-auto">
             </div>
+                        <!-- Logos de reseñas debajo del logo -->
+            <div class="reseñas-container">
+                <span class="label">Visítanos en:</span>
+                <a href="https://www.tripadvisor.com/Restaurant_Review-g947009-d34453341-Reviews-Torreon_Tapas_Bar-Santa_Pola_Costa_Blanca_Province_of_Alicante_Valencian_Communi.html" 
+                   target="_blank" 
+                   class="social-icon" 
+                   title="Ver en Tripadvisor">
+                    <img src="https://i.imgur.com/t5tYuC0.png" alt="Tripadvisor" loading="lazy">
+                </a>
+                <a href="https://www.thefork.com/restaurant/torreon-tapas-bar-r863517" 
+                   target="_blank" 
+                   class="social-icon" 
+                   title="Reserva en TheFork">
+                    <img src="https://i.imgur.com/9hPBAxX.jpeg" alt="TheFork" loading="lazy">
+                </a>
+            </div>
             <nav class="hidden lg:flex items-center space-x-6 mb-4">
                 <span onclick="showView('inicio')" class="nav-item active" id="nav-inicio" data-i18n="nav.inicio">Inicio</span>
                 <span onclick="window.open('https://menutorreontapasbar.oneapp.dev/', '_blank')" class="nav-item" id="nav-carta" data-i18n="nav.carta">Carta</span>
+                <span onclick="showView('galeria')" class="nav-item" id="nav-galeria" data-i18n="nav.galeria">Galería</span>
                 <span onclick="showView('grupos')" class="nav-item" id="nav-grupos" data-i18n="nav.grupos">Menús para Grupos</span>
                 <span onclick="showView('eventos')" class="nav-item" id="nav-eventos" data-i18n="nav.eventos">Eventos</span>
                 <span onclick="showView('reservas')" class="nav-item" id="nav-reservas" data-i18n="nav.reservas">Reservas</span>
@@ -207,6 +402,7 @@
             <div class="flex flex-col">
                 <span onclick="showView('inicio'); toggleMenu()" class="mobile-nav-item" data-i18n="nav.inicio">Inicio</span>
                 <span onclick="window.open('https://menutorreontapasbar.oneapp.dev/', '_blank'); toggleMenu()" class="mobile-nav-item" data-i18n="nav.carta">Carta</span>
+                <span onclick="showView('galeria'); toggleMenu()" class="mobile-nav-item" data-i18n="nav.galeria">Galería</span>
                 <span onclick="showView('grupos'); toggleMenu()" class="mobile-nav-item" data-i18n="nav.grupos">Menús para Grupos</span>
                 <span onclick="showView('eventos'); toggleMenu()" class="mobile-nav-item" data-i18n="nav.eventos">Eventos</span>
                 <span onclick="showView('reservas'); toggleMenu()" class="mobile-nav-item" data-i18n="nav.reservas">Reservas</span>
@@ -243,6 +439,24 @@
     <!-- SECCIÓN CARTA OCULTA - REDIRIGE A URL EXTERNA -->
     <div id="view-carta" class="view-content"></div>
 
+    <!-- GALERÍA -->
+    <div id="view-galeria" class="view-content pb-24">
+        <div class="container mx-auto px-6 max-w-7xl pt-12">
+            <h2 class="section-title" data-i18n="galeria.title">Galería</h2>
+            <p class="text-center text-gray-400 text-sm mb-12" data-i18n="galeria.subtitle">Descubre nuestra selección de platos</p>
+            <div id="galleryContainer" class="gallery-grid"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Galería -->
+    <div id="galleryModal" class="modal-gallery" onclick="closeModal()">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <span class="nav-arrow prev" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</span>
+        <img id="modalImage" src="" alt="Plato Torreón">
+        <span class="nav-arrow next" onclick="event.stopPropagation(); changeImage(1)">&#10095;</span>
+        <span class="modal-counter" id="modalCounter">1 / 43</span>
+    </div>
+
     <!-- GRUPOS -->
     <div id="view-grupos" class="view-content pb-24">
         <div class="container mx-auto px-6 max-w-6xl pt-12">
@@ -251,7 +465,7 @@
                 <div class="menu-card p-10 text-center"><span class="text-gold text-5xl font-light mb-2">30€</span><p class="text-[10px] uppercase text-gray-500 mb-8" data-i18n="groups.per_person">Por Persona</p><ul class="text-xs space-y-4 text-gray-300 font-light mb-8"><li data-i18n="groups.menu1.item1">3 entrantes al centro</li><li data-i18n="groups.menu1.item2">Plato principal a elegir (3 opciones)</li><li data-i18n="groups.menu1.item3">Postre y Bebida incluida</li></ul><span class="text-[9px] uppercase text-gold font-bold" data-i18n="groups.min">Mínimo 8 comensales</span></div>
                 <div class="menu-card p-10 text-center border-gold"><span class="text-gold text-5xl font-light mb-2">35€</span><p class="text-[10px] uppercase text-gray-500 mb-8" data-i18n="groups.per_person">Por Persona</p><ul class="text-xs space-y-4 text-gray-300 font-light mb-8"><li data-i18n="groups.menu2.item1">3 entrantes al centro</li><li data-i18n="groups.menu2.item2">Principal PREMIUM a elegir</li><li data-i18n="groups.menu2.item3">Postre y Bebida incluida</li></ul><span class="text-[9px] uppercase text-gold font-bold" data-i18n="groups.min">Mínimo 8 comensales</span></div>
             </div>
-            <div class="bg-black/20 border border-white/5 p-8 mb-16 text-center"><h3 class="text-gold font-title text-xl mb-10" data-i18n="groups.special.title">Menú Especial Diario - 25€</h3><div class="grid md:grid-cols-3 gap-10 text-left max-w-4xl mx-auto"><div><h4 class="text-[10px] uppercase text-gray-500 mb-4" data-i18n="groups.special.starters">Entrantes (A elegir)</h4><ul class="text-xs space-y-2 text-gray-400"><li>Fritura mixta</li><li>Queso de cabra</li><li>Mejillones marinera</li></ul></div><div><h4 class="text-[10px] uppercase text-gray-500 mb-4" data-i18n="groups.special.mains">Principales (A elegir)</h4><ul class="text-xs space-y-2 text-gray-400"><li>Paella mixta</li><li>Salmón a la plancha</li><li>Carrillada, Codillo al horno</li></ul></div><div><h4 class="text-[10px] uppercase text-gray-500 mb-4" data-i18n="groups.special.includes">Incluye</h4><ul class="text-xs space-y-2 text-gray-400"><li data-i18n="groups.special.include1">Postre del día o Café</li><li data-i18n="groups.special.include2">Botella vino (cada 2), Jarra cerveza o Sangría</li></ul></div></div></div>
+            <div class="bg-black/20 border border-white/5 p-8 mb-16 text-center"><h3 class="text-gold font-title text-xl mb-10" data-i18n="groups.special.title">Menú Especial Diario - 25€</h3><p class="text-gray-300 text-sm max-w-2xl mx-auto leading-relaxed">3 Entradas al centro para compartir y plato principal a elegir con botella de vino o jarra de sangría o jarra de cerveza.</p></div>
             
             <section class="max-w-3xl mx-auto bg-[#0d1428] p-10 border border-white/5">
                 <div id="formGruposContainer">
@@ -323,8 +537,7 @@
             </div>
         </div>
     </div>
-
-    <!-- ALÉRGENOS -->
+        <!-- ALÉRGENOS -->
     <div id="view-alergenos" class="view-content pb-24">
         <div class="container mx-auto px-6 max-w-6xl pt-12">
             <h2 class="section-title" data-i18n="allergens.title">Información de Alérgenos</h2>
@@ -341,24 +554,63 @@
         </div>
     </div>
 
-    <!-- CONTACTO (Dirección Actualizada) -->
+    <!-- CONTACTO -->
     <div id="view-contacto" class="view-content pb-24">
         <div class="container mx-auto px-6 max-w-4xl pt-24 flex flex-col items-center">
             <h2 class="text-gold font-title text-3xl tracking-[0.3em] mb-20 uppercase" data-i18n="contact.title">Contacto</h2>
             <div class="w-full space-y-12">
-                <div class="flex flex-col md:flex-row items-center gap-8"><div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center"><i data-lucide="map-pin" class="text-gold w-7 h-7"></i></div><p class="text-2xl font-light text-white">Avenida Santiago Bernabéu 2, esquina con Virgen del Carmen 2</p></div>
-                <div class="flex flex-col md:flex-row items-center gap-8"><div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center"><i data-lucide="phone" class="text-gold w-7 h-7"></i></div><a href="tel:+34691111859" class="text-2xl font-light text-white hover:text-gold">691 111 859</a></div>
-                <div class="flex flex-col md:flex-row items-center gap-8"><div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center"><i data-lucide="mail" class="text-gold w-7 h-7"></i></div><a href="mailto:torreonsantapola@gmail.com" class="text-2xl font-light text-white hover:text-gold break-all">torreonsantapola@gmail.com</a></div>
+                <!-- Dirección -->
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center">
+                        <i data-lucide="map-pin" class="text-gold w-7 h-7"></i>
+                    </div>
+                    <p class="text-2xl font-light text-white">Avenida Santiago Bernabéu 2, esquina con Virgen del Carmen 2</p>
+                </div>
+                <!-- Teléfono -->
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center">
+                        <i data-lucide="phone" class="text-gold w-7 h-7"></i>
+                    </div>
+                    <a href="tel:+34655285483" class="text-2xl font-light text-white hover:text-gold">+34 655 28 54 83</a>
+                </div>
+                <!-- Email -->
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center">
+                        <i data-lucide="mail" class="text-gold w-7 h-7"></i>
+                    </div>
+                    <a href="mailto:torreonsantapola@gmail.com" class="text-2xl font-light text-white hover:text-gold break-all">torreonsantapola@gmail.com</a>
+                </div>
             </div>
-            <div class="mt-24 w-full"><button onclick="showView('reservas')" class="w-full bg-gold text-[#111a33] py-5 font-bold uppercase text-[10px] tracking-[0.4em]" data-i18n="contact.button">Solicitar Información / Reservar Mesa</button></div>
+            <div class="mt-24 w-full">
+                <button onclick="showView('reservas')" class="w-full bg-gold text-[#111a33] py-5 font-bold uppercase text-[10px] tracking-[0.4em]" data-i18n="contact.button">Solicitar Información / Reservar Mesa</button>
+            </div>
         </div>
     </div>
 
     <footer class="bg-[#0a1125] pt-20 pb-10 px-6 border-t border-white/5">
         <div class="container mx-auto grid md:grid-cols-3 gap-16 text-xs max-w-6xl">
             <div class="space-y-6"><img src="https://i.imgur.com/RXH6Mpm.png" class="h-16 w-auto"><p class="text-gray-500 font-light" data-i18n="footer.text">Tapas tradicionales con un toque contemporáneo. Sabor auténtico en el corazón de Santa Pola.</p></div>
-            <div><h5 class="text-gold font-bold mb-8 text-sm uppercase" data-i18n="footer.nav">Navegación</h5><ul class="space-y-3 text-gray-400 font-light"><li onclick="showView('inicio')" class="hover:text-gold cursor-pointer" data-i18n="nav.inicio">Inicio</li><li onclick="window.open('https://menutorreontapasbar.oneapp.dev/', '_blank')" class="hover:text-gold cursor-pointer" data-i18n="nav.carta">Carta</li><li onclick="showView('grupos')" class="hover:text-gold cursor-pointer" data-i18n="nav.grupos">Menús para Grupos</li><li onclick="showView('contacto')" class="hover:text-gold cursor-pointer" data-i18n="nav.contacto">Contacto</li></ul></div>
-            <div><h5 class="text-gold font-bold mb-8 text-sm uppercase" data-i18n="footer.location">Ubicación</h5><p class="text-gray-400 leading-loose">Avenida Santiago Bernabéu 2, esquina con Virgen del Carmen 2<br>Tel: 691 111 859<br>torreonsantapola@gmail.com</p></div>
+            <div><h5 class="text-gold font-bold mb-8 text-sm uppercase" data-i18n="footer.nav">Navegación</h5><ul class="space-y-3 text-gray-400 font-light"><li onclick="showView('inicio')" class="hover:text-gold cursor-pointer" data-i18n="nav.inicio">Inicio</li><li onclick="window.open('https://menutorreontapasbar.oneapp.dev/', '_blank')" class="hover:text-gold cursor-pointer" data-i18n="nav.carta">Carta</li><li onclick="showView('galeria')" class="hover:text-gold cursor-pointer" data-i18n="nav.galeria">Galería</li><li onclick="showView('grupos')" class="hover:text-gold cursor-pointer" data-i18n="nav.grupos">Menús para Grupos</li><li onclick="showView('contacto')" class="hover:text-gold cursor-pointer" data-i18n="nav.contacto">Contacto</li></ul></div>
+            <div><h5 class="text-gold font-bold mb-8 text-sm uppercase" data-i18n="footer.location">Ubicación</h5><p class="text-gray-400 leading-loose">Avenida Santiago Bernabéu 2, esquina con Virgen del Carmen 2<br>Tel: +34 655 28 54 83<br>torreonsantapola@gmail.com</p></div>
+                    <!-- Logos de reseñas en el footer -->
+            <div>
+                <h5 class="text-gold font-bold mb-8 text-sm uppercase">Reseñas</h5>
+                <div class="flex gap-4">
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g947009-d34453341-Reviews-Torreon_Tapas_Bar-Santa_Pola_Costa_Blanca_Province_of_Alicante_Valencian_Communi.html" 
+                       target="_blank" 
+                       class="social-icon" 
+                       title="Ver en Tripadvisor">
+                        <img src="https://i.imgur.com/t5tYuC0.png" alt="Tripadvisor" loading="lazy">
+                    </a>
+                    <a href="https://www.thefork.com/restaurant/torreon-tapas-bar-r863517" 
+                       target="_blank" 
+                       class="social-icon" 
+                       title="Reserva en TheFork">
+                        <img src="https://i.imgur.com/9hPBAxX.jpeg" alt="TheFork" loading="lazy">
+                    </a>
+                </div>
+                <p class="text-gray-500 text-[10px] mt-3">Reserva y opina en nuestras plataformas</p>
+            </div>
         </div>
         <div class="container mx-auto mt-20 pt-10 border-t border-white/5 text-center text-gray-600 text-[9px] uppercase">&copy; 2026 Torreón Tapas Bar. <span data-i18n="footer.rights">Todos los derechos reservados.</span></div>
     </footer>
@@ -367,13 +619,14 @@
         // --- TRADUCCIONES ---
         const translations = {
             es: {
-                "nav.inicio": "Inicio", "nav.carta": "Carta", "nav.grupos": "Menús para Grupos", "nav.eventos": "Eventos",
+                "nav.inicio": "Inicio", "nav.carta": "Carta", "nav.galeria": "Galería", "nav.grupos": "Menús para Grupos", "nav.eventos": "Eventos",
                 "nav.reservas": "Reservas", "nav.alergenos": "Alérgenos", "nav.contacto": "Contacto",
                 "hero.title": "Ven. Prueba y Repite", "hero.reserve": "Reservar Mesa", "hero.menu": "Ver Carta",
                 "exp.title": "Experiencia Gastronómica", "exp.text": "En Torreón Tapas Bar combinamos la tradición mediterránea con un toque contemporáneo. Nuestro espacio acogedor es perfecto tanto para disfrutar de un almuerzo tranquilo como para vivir la energía de nuestras noches con música ambiental.",
                 "feature1.title": "Tapas Selectas", "feature1.desc": "Selección de tapas tradicionales con ingredientes frescos y de calidad",
                 "feature2.title": "Ambiente Único", "feature2.desc": "Música ambiental en un espacio moderno y acogedor",
                 "feature3.title": "Celebraciones", "feature3.desc": "Celebraciones, cumpleaños, despedidas y eventos de empresa",
+                "galeria.title": "Galería", "galeria.subtitle": "Descubre nuestra selección de platos",
                 "groups.title": "Menús para Grupos", "groups.per_person": "Por Persona", "groups.min": "Mínimo 8 comensales",
                 "groups.menu1.item1": "3 entrantes al centro", "groups.menu1.item2": "Plato principal a elegir (3 opciones)", "groups.menu1.item3": "Postre y Bebida incluida",
                 "groups.menu2.item1": "3 entrantes al centro", "groups.menu2.item2": "Principal PREMIUM a elegir", "groups.menu2.item3": "Postre y Bebida incluida",
@@ -401,13 +654,14 @@
                 "form.thanks": "¡Gracias!", "form.message": "Te contactaremos muy pronto.", "form.back": "Volver al inicio", "form.error": "Hubo un error. Por favor, intenta de nuevo o llámanos directamente."
             },
             en: {
-                "nav.inicio": "Home", "nav.carta": "Menu", "nav.grupos": "Group Menus", "nav.eventos": "Events",
+                "nav.inicio": "Home", "nav.carta": "Menu", "nav.galeria": "Gallery", "nav.grupos": "Group Menus", "nav.eventos": "Events",
                 "nav.reservas": "Bookings", "nav.alergenos": "Allergens", "nav.contacto": "Contact",
                 "hero.title": "Come. Try and Repeat", "hero.reserve": "Book a Table", "hero.menu": "View Menu",
                 "exp.title": "Gastronomic Experience", "exp.text": "At Torreón Tapas Bar we combine Mediterranean tradition with a contemporary touch. Our cozy space is perfect for a quiet lunch or to enjoy the energy of our nights with ambient music.",
                 "feature1.title": "Select Tapas", "feature1.desc": "Selection of traditional tapas with fresh, quality ingredients",
                 "feature2.title": "Unique Atmosphere", "feature2.desc": "Ambient music in a modern and cozy space",
                 "feature3.title": "Celebrations", "feature3.desc": "Celebrations, birthdays, farewells and corporate events",
+                "galeria.title": "Gallery", "galeria.subtitle": "Discover our selection of dishes",
                 "groups.title": "Group Menus", "groups.per_person": "Per Person", "groups.min": "Minimum 8 people",
                 "groups.menu1.item1": "3 starters to share", "groups.menu1.item2": "Main course to choose (3 options)", "groups.menu1.item3": "Dessert and drink included",
                 "groups.menu2.item1": "3 starters to share", "groups.menu2.item2": "PREMIUM main course to choose", "groups.menu2.item3": "Dessert and drink included",
@@ -435,13 +689,14 @@
                 "form.thanks": "Thank you!", "form.message": "We will contact you very soon.", "form.back": "Back to home", "form.error": "An error occurred. Please try again or call us directly."
             },
             fr: {
-                "nav.inicio": "Accueil", "nav.carta": "Carte", "nav.grupos": "Menus Groupe", "nav.eventos": "Événements",
+                "nav.inicio": "Accueil", "nav.carta": "Carte", "nav.galeria": "Galerie", "nav.grupos": "Menus Groupe", "nav.eventos": "Événements",
                 "nav.reservas": "Réservations", "nav.alergenos": "Allergènes", "nav.contacto": "Contact",
                 "hero.title": "Venez. Goûtez et Répétez", "hero.reserve": "Réserver", "hero.menu": "Voir la Carte",
                 "exp.title": "Expérience Gastronomique", "exp.text": "Au Torreón Tapas Bar, nous combinons tradition méditerranéenne et touche contemporaine. Notre espace chaleureux est parfait pour un déjeuner tranquille ou pour profiter de l'énergie de nos soirées avec musique d'ambiance.",
                 "feature1.title": "Tapas Sélectionnées", "feature1.desc": "Sélection de tapas traditionnelles avec des ingrédients frais et de qualité",
                 "feature2.title": "Ambiance Unique", "feature2.desc": "Musique d'ambiance dans un espace moderne et chaleureux",
                 "feature3.title": "Célébrations", "feature3.desc": "Célébrations, anniversaires, enterrements de vie de jeune fille et événements d'entreprise",
+                "galeria.title": "Galerie", "galeria.subtitle": "Découvrez notre sélection de plats",
                 "groups.title": "Menus de Groupe", "groups.per_person": "Par Personne", "groups.min": "Minimum 8 personnes",
                 "groups.menu1.item1": "3 entrées à partager", "groups.menu1.item2": "Plat principal au choix (3 options)", "groups.menu1.item3": "Dessert et boisson inclus",
                 "groups.menu2.item1": "3 entrées à partager", "groups.menu2.item2": "Plat PREMIUM au choix", "groups.menu2.item3": "Dessert et boisson inclus",
@@ -470,6 +725,112 @@
             }
         };
 
+        // --- LISTA DE 43 IMÁGENES DE LA GALERÍA ---
+        const galleryImages = [
+            "https://i.imgur.com/GJdvG5l.png",
+            "https://i.imgur.com/XgHSqNh.jpeg",
+            "https://i.imgur.com/FRCaKue.png",
+            "https://i.imgur.com/fYnLROJ.png",
+            "https://i.imgur.com/aQbPIyf.jpeg",
+            "https://i.imgur.com/KQP1rsm.png",
+            "https://i.imgur.com/ZCYRz0R.png",
+            "https://i.imgur.com/YLDYM2I.png",
+            "https://i.imgur.com/Iy8dpdz.jpeg",
+            "https://i.imgur.com/auLQvsV.png",
+            "https://i.imgur.com/DDHk9ZT.png",
+            "https://i.imgur.com/jk7bdt9.png",
+            "https://i.imgur.com/TQLCIms.jpeg",
+            "https://i.imgur.com/jx2CniN.png",
+            "https://i.imgur.com/ayGc3hf.png",
+            "https://i.imgur.com/gcpX1iZ.jpeg",
+            "https://i.imgur.com/YzeJJSu.png",
+            "https://i.imgur.com/x2P5PKf.png",
+            "https://i.imgur.com/5DjmuFE.jpeg",
+            "https://i.imgur.com/BRtez9W.jpeg",
+            "https://i.imgur.com/JBGyFnc.png",
+            "https://i.imgur.com/Zk8tiZQ.png",
+            "https://i.imgur.com/xD20H9V.png",
+            "https://i.imgur.com/b5KmbNj.png",
+            "https://i.imgur.com/zF04ALY.png",
+            "https://i.imgur.com/geYOHNw.png",
+            "https://i.imgur.com/geYOHNw.png",
+            "https://i.imgur.com/5MBK60N.png",
+            "https://i.imgur.com/iQFQBVs.png",
+            "https://i.imgur.com/no9dzS8.png",
+            "https://i.imgur.com/87Fhdai.jpeg",
+            "https://i.imgur.com/Fkgy2mi.png",
+            "https://i.imgur.com/1YDJTEO.png",
+            "https://i.imgur.com/1SuVBVb.png",
+            "https://i.imgur.com/SArlwgV.png",
+            "https://i.imgur.com/fSpGvb3.png",
+            "https://i.imgur.com/HFZ8N1d.png",
+            "https://i.imgur.com/70LVbOy.jpeg",
+            "https://i.imgur.com/lZDn06b.png",
+            "https://i.imgur.com/Oc4vOoB.png",
+            "https://i.imgur.com/fpariAm.jpeg",
+            "https://i.imgur.com/vFR2fSz.png",
+            "https://i.imgur.com/t5e5w0Y.png"
+        ];
+
+        // --- VARIABLES DEL MODAL ---
+        let currentImageIndex = 0;
+
+        // --- RENDERIZAR GALERÍA ---
+        function renderGallery() {
+            const container = document.getElementById('galleryContainer');
+            if (!container) return;
+            
+            container.innerHTML = galleryImages.map((url, index) => `
+                <div class="gallery-item" onclick="openModal(${index})">
+                    <img src="${url}" alt="Plato Torreón ${index + 1}" loading="lazy">
+                    <div class="overlay">
+                        <span>Ver foto</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- MODAL FUNCTIONS ---
+        function openModal(index) {
+            currentImageIndex = index;
+            const modal = document.getElementById('galleryModal');
+            const modalImg = document.getElementById('modalImage');
+            const counter = document.getElementById('modalCounter');
+            
+            modalImg.src = galleryImages[currentImageIndex];
+            counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
+            const modalImg = document.getElementById('modalImage');
+            const counter = document.getElementById('modalCounter');
+            
+            modalImg.style.opacity = '0';
+            setTimeout(() => {
+                modalImg.src = galleryImages[currentImageIndex];
+                modalImg.style.opacity = '1';
+            }, 200);
+            
+            counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+        }
+
+        // --- CERRAR MODAL CON TECLA ESC ---
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') changeImage(-1);
+            if (e.key === 'ArrowRight') changeImage(1);
+        });
+
+        // --- FUNCIONES EXISTENTES ---
         let currentLang = localStorage.getItem('torreon_lang') || 'es';
 
         function changeLanguage(lang) {
@@ -587,12 +948,16 @@
         window.changeLanguage = changeLanguage;
         window.toggleLang = toggleLang;
         window.resetForms = resetForms;
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.changeImage = changeImage;
         
         document.addEventListener('DOMContentLoaded', function() {
             changeLanguage(currentLang);
             if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
             submitForm('formGrupos', 'formGruposMensaje', 'formGruposContainer');
             submitForm('formReservas', 'formReservasMensaje', 'formReservasContainer');
+            renderGallery();
         });
     </script>
 </body>
